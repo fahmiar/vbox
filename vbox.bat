@@ -101,7 +101,7 @@ if not "%IS_HELP%"=="" (
 
 :: update
 if not "%--update%"=="" (
-  git pull
+  call "%APP_PATH%\modules\gitu.bat"
   goto :eof
 )
 
