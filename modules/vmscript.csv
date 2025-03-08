@@ -1,0 +1,15 @@
+comment,command
+Create VM,createvm --name "$VM_NAME$" --register --basefolder "$VBOX_PATH$" --ostype "$IMG_OSTYPE$"
+Modify system,modifyvm "$VM_NAME$" --description "$VM_DESC$" --cpus $VM_CPUS$ --memory $VM_MEMORY$ ‑‑nested‑hw‑virt on --vram 12 --audio none
+Add share folder,sharedfolder add "$VM_NAME$" --name "downloads" --hostpath "$HOMEPATH$\Downloads" --automount
+Create 1st NAT network,modifyvm "$VM_NAME$" --nic1 nat
+Create 2nd host only network,modifyvm "$VM_NAME$" --nic2 hostonly --hostonlyadapter2 "VirtualBox Host-Only Ethernet Adapter"
+::Add port forwarding,modifyvm "$VM_NAME$" --natpf1 ,tcp,,2222,,22
+Remove Floppy,storagectl "$VM_NAME$" --name Floppy --remove
+Remove IDE,storagectl "$VM_NAME$" --name "IDE" --remove
+Remove SATA,storagectl "$VM_NAME$" --name "SATA" --remove
+Add SATA,storagectl "$VM_NAME$" --name "SATA" --add sata --controller IntelAhci
+Create medium,createmedium --filename "$VM_PATH$\$VM_NAME$.vdi" --diffparent "$IMG_PATH$" --size 2 --format VDI
+Add medium,storageattach "$VM_NAME$" --storagectl "SATA" --port 0 --device 0 --type hdd --medium "$VM_PATH$\$VM_NAME$.vdi"
+Add IDE,storagectl "$VM_NAME$" --name "IDE" --add ide
+Add ISO,storageattach "$VM_NAME$" --storagectl "IDE" --port 0 --device 0 --type dvddrive --medium "$VM_PATH$\cloud-init.iso"

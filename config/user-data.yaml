@@ -1,0 +1,28 @@
+#cloud-config
+preserve_hostname: true
+timezone: Asia/Jakarta
+resize_rootfs: true
+growpart:
+  mode: auto
+package_update: true
+package_upgrade: false
+packages:
+- apt:
+  - virtualbox-guest-utils
+write_files:
+- path: /etc/cloud/cloud-init.disabled
+  defer: true
+  content: |
+    Disabled by $IMG_OSTYPE$ live installer after first boot.
+    To re-enable cloud-init on this image run:
+      sudo cloud-init clean --machine-id
+ssh_pwauth: true
+users:
+- gecos: $VM_USER$
+  name: $VM_USER$
+  passwd: $VM_PASSWORD$
+  groups: adm,cdrom,dip,lxd,plugdev,sudo,vboxsf
+  lock_passwd: false
+  shell: /bin/bash
+runcmd:
+- [ sh, -c, echo '=========hello *world=========' ]

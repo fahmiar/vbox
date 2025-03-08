@@ -1,0 +1,2 @@
+instance-id: $IMG_OSTYPE$
+local-hostname: $VM_NAME$

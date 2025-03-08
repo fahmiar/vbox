@@ -1,0 +1,17 @@
+network:
+  version: 2
+  ethernets:
+    # ubuntu
+    enp0s3:
+      dhcp4: true
+    enp0s8:
+      addresses:
+      - $VM_IP1$/24
+      - $VM_IP2$/32
+    # redhat
+    eth0:
+      dhcp4: true
+    eth1:
+      addresses:
+      - $VM_IP1$/24
+      - $VM_IP2$/32
